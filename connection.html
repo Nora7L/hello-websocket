@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>connection</title>
+    <style>
+        #connection {
+            text-align: center;
+            padding: 20px;
+        }
+        .allitems {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .allitems div {
+            width: 60%;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid;
+            text-align: center;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="connection">connection...</div>
+    <div class="allitems">
+        <div>This is the first module!</div>
+        <div>This is the second module!</div>
+        <div>This is the third modele!</div>
+    </div>
+
+    <script>
+        var mess = document.getElementById("connection");
+        if (window.WebSocket) {
+            var ws = new WebSocket('ws://localhost:8001');
+
+            ws.onopen = function (e) {
+                console.log("Connect the server to success");
+                ws.send("connection");
+            }
+            ws.onclose = function (e) {
+                console.log("Close pages");
+            }
+            ws.onerror = function (e) {
+                console.log("This is a error");
+            }
+
+            ws.onmessage = function (e) {
+                mess.innerHTML = "Connection success!"
+                document.querySelector(".allitems").onclick = function (e) {
+                    var time = new Date();
+                    ws.send(time + "click“" + e.target.innerHTML + "”");
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

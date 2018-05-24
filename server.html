@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>server</title>
+    <style>
+        .kuang {
+            text-align: center;
+            margin-top: 200px;
+        }
+        #server {
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+    <div id="server"></div>
+
+    <script>
+        var server = document.getElementById("server");
+        if (window.WebSocket) {
+            var ws = new WebSocket('ws://localhost:8001');
+
+            ws.onopen = function (e) {
+                console.log("success");
+                ws.send("server");
+            }
+            ws.onclose = function (e) {
+                console.log("closed");
+            }
+            ws.onerror = function () {
+                console.log("this is error");
+            }
+
+            ws.onmessage = function (e) {
+                var time = new Date();
+                server.innerHTML += time + "的消息：" + e.data + "<br>"
+            }
+        }
+    </script>
+</body>
+
+</html>
